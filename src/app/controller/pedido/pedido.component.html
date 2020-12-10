@@ -1,0 +1,70 @@
+<app-cliente></app-cliente>
+
+<form  [hidden]="pedidoConcluido" #pedidoForm="ngForm" class="grid-pedido">   
+    <div>
+        <h1>Lista de Produtos</h1>
+        <table border="1">
+            <tr class="table-top">
+                <td>Descrição</td>
+                <td>Categoria</td>
+                <td>Valor</td>
+                <td>Quantidade</td>
+            </tr>
+        
+            <tr class="cart-item" *ngFor="let item of itens">
+                <td>{{ item.produto.descricao }}</td>
+                <td>{{ item.produto.categoria }}</td>
+                <td>{{ item.produto.preco }}</td>
+                <td>
+                    <input type="number" [(ngModel)]="item.quantidade" name="quantidade" value="0" min="0">
+                </td>
+            </tr>         
+            
+        </table>    
+        
+    </div>
+
+    <div class="form-group">  
+        <div class="checkbox-submit">               
+            <label>
+                <input [(ngModel)]="pedido.entrega" name="entrega" type="checkbox" />  
+                <span>Entrega</span>   
+            </label>        
+            <button class="btn waves-effect waves-light" type="submit" name="action" (click)="onSubmit();" >Enviar        
+            </button> 
+        </div>             
+    </div>
+     
+</form>
+<div [hidden]="!pedidoConcluido" class="grid-pedido">
+    
+
+    <div>
+        <h1>Pedido Concluído</h1>
+        <table border="1">
+            <tr class="table-top">
+                <td>Descrição</td>
+                <td>Categoria</td>
+                <td>Valor</td>
+                <td>Quantidade</td>
+            </tr>
+        
+            <tr class="cart-item" *ngFor="let item of listProdutos">
+                <td>{{ item.produto.descricao }}</td>
+                <td>{{ item.produto.categoria }}</td>
+                <td>{{ item.produto.preco }}</td>
+                <td>{{item.quantidade}}</td>
+            </tr>         
+            
+        </table>    
+        <label for="pedido">Valor Total do Pedido</label>
+        <p name="pedido">{{pedido.valor | currency:'BRL':true:'1.2-2'}} </p>
+
+        <label>Dados do Cliente</label>
+        <p>Nome: {{pedido.cliente.nome}} </p>
+        <p>Endereço: {{pedido.cliente.endereco}} </p>
+        <p>Obrigada por realizar o pedido!</p>
+    </div>
+
+    
+</div> 
