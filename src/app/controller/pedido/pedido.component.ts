@@ -26,7 +26,7 @@ export class PedidoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  finalizarCompra(form: NgForm) {
+  finalizarCompra() {
     this.pedido.lista.map(item => {
       if(item.quantidade > 0){
         this.pedido.valor += item.produto.preco*1.08;
@@ -38,7 +38,7 @@ export class PedidoComponent implements OnInit {
     }
 
     this.pedido.valor = Number.parseFloat(this.pedido.valor.toFixed(2));
-    console.log(form.value);
+    console.log(this.pedido.valor);
   }
 
 }
