@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Cliente } from 'src/app/model/cliente';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Cliente } from 'src/app/model/cliente.model';
 
 @Component({
   selector: 'app-cliente',
@@ -8,14 +9,14 @@ import { Cliente } from 'src/app/model/cliente';
 })
 export class ClienteComponent implements OnInit {
 
-  @Input() nome:string = '';
-  @Input() endereco:string = '';
-
-  cliente:Cliente = {};
+  cliente:Cliente = {id: 1, nome: '', endereco: ''};
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onSubmitCliente(form: NgForm) {
+    console.log(form.value);
+  }
 }

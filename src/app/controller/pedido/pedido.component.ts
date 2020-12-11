@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Cliente } from 'src/app/model/cliente';
-import { Item } from 'src/app/model/item';
-import { Pedido } from 'src/app/model/pedido';
+import { Component, Input, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { FormaDePagamento } from 'src/app/model/formaDePagamento';
+import { Pedido } from 'src/app/model/pedido.model';
 
 @Component({
   selector: 'app-pedido',
@@ -10,48 +10,35 @@ import { Pedido } from 'src/app/model/pedido';
 })
 export class PedidoComponent implements OnInit {
 
-  @Input() entrega:boolean = false;
-  @Input() itens:Array<Item> = new Array<Item>();
-  @Input() cliente:Cliente = {nome: '', endereco: ''};
-  
-  @Output() criarListaEvent = new EventEmitter<any>();
+  formasDePagamento:Array<FormaDePagamento> = [{nome: 'cartao', descricao:'Cartão de Crédito'}, {nome: 'boleto', descricao:'Boleto Bancário'}];
 
-  
-  pedido:Pedido = {numero:1, valor:0, entrega: false, itens: new Array<Item>(), cliente: {} };
-  listProdutos: Array<Item> = new Array<Item>();
-  pedidoConcluido:boolean = false;  
+  pedido:Pedido = {
+    frete_tarifado: false,
+    lista: [{produto:{ id: 1, categoria: "Hardware", descricao: "Teclado Gamer", preco: 300.00, selecionado: false }, quantidade: 1},
+    {produto:{ id: 2, categoria: "Software", descricao: "Mouse Sem Fio", preco: 100.00, selecionado: false }, quantidade: 1}, 
+    {produto:{ id: 3, categoria: "Software", descricao: "Super Defender", preco: 200.00, selecionado: false }, quantidade: 1}],
+    formaDePagamento:'',
+    valor: 0
+  };
 
   constructor() { }
 
   ngOnInit(): void {
-    this.criarListaEvent.emit();
   }
 
-  somaProdutos(itens: Array<Item>): number {
-    let somaProdutos = 0;
-
-      itens.forEach(item => {
-        somaProdutos += item.produto.preco*item.quantidade;
+  finalizarCompra(form: NgForm) {
+    this.pedido.lista.map(item => {
+      if(item.quantidade > 0){
+        this.pedido.valor += item.produto.preco*1.08;
+      }
     });
-    return somaProdutos;
-}
 
-  onSubmit() { 
-    this.pedido.cliente = this.cliente;
-    this.listProdutos = this.itens.filter((item) => { return item.quantidade > 0; });
-    
-    this.pedido.valor = this.somaProdutos(this.listProdutos)*1.08;
-    
-    if(this.entrega){
+    if(this.pedido.frete_tarifado){
       this.pedido.valor = this.pedido.valor*1.15;
     }
-   
-    this.pedido.valor = Number.parseFloat(this.pedido.valor.toFixed(2));
-    
-    if(this.pedido.valor > 0){
-      this.pedidoConcluido = true;
-    }
 
+    this.pedido.valor = Number.parseFloat(this.pedido.valor.toFixed(2));
+    console.log(form.value);
   }
 
 }

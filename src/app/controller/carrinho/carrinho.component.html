@@ -1,0 +1,23 @@
+<h1>Carrinho de Compras</h1>
+
+<form #formCarrinho="ngForm" (ngSubmit)="finalizarPedido(formCarrinho)">
+    <table border="1">
+        <tr class="table-top">
+            <td>Descrição</td>
+            <td>Categoria</td>
+            <td>Valor</td>
+            <td>Quantidade</td>
+        </tr>
+    
+        <tr class="cart-item" *ngFor="let item of itens">
+            <td>{{ item.produto.descricao }}</td>
+            <td>{{ item.produto.categoria }}</td>
+            <td>{{ item.produto.preco }}</td>
+            <td>
+                <input type="number" [(ngModel)]="item.quantidade" name="quantidade" value="0" min="0">
+            </td>
+        </tr> 
+    </table>
+
+    <button type="submit" routerLink="/pedido">Finalizar Pedido</button>
+</form>

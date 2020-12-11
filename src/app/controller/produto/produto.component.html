@@ -1,1 +1,23 @@
-<p>produto works!</p>
+<h1>Produtos à venda</h1>
+
+<form #formProdutos="ngForm" (ngSubmit)="adicionarAoCarrinho(produtos)">
+    <table border="1">
+        <tr>
+            <td></td>
+            <td>Id</td>
+            <td>Categoria</td>
+            <td>Descrição</td>
+            <td>Preço</td>
+        </tr>
+
+        <tr *ngFor="let produto of produtos">
+            <td><input type="checkbox" [(ngModel)]="produto.selecionado" [ngModelOptions]="{standalone: true}"/></td>
+            <td name="id" #id="ngModel" ngModel>{{ produto.id }}</td>
+            <td name="categoria" #categoria="ngModel" ngModel>{{ produto.categoria }}</td>
+            <td name="descricao" #descricao="ngModel" ngModel>{{ produto.descricao }}</td>
+            <td name="preco" #preco="ngModel" ngModel>{{ produto.preco | currency:'BRL' }}</td>
+        </tr>
+    </table>
+
+    <button type="submit" routerLink="/carrinho">Adicionar ao carrinho</button>
+</form>

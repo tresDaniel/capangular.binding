@@ -1,16 +1,15 @@
-<div class="form-group">
-    <div style="width: 400px;">
-        <p>Insira aqui seus dados:</p>
-    </div>
-    <div class="input-field" col m6>
-        <label for="text">Nome do Cliente:</label>
-        <input [(ngModel)]="cliente.nome" name="nome" type="text" >
-    </div>
-    <div class="input-field" col m6>
-        <label for="text">Endereço:</label>
-        <input [(ngModel)]="cliente.endereco" name="endereco" type="text">
-    </div>
-    <div>
-        <p>Bem vindo, {{ cliente.nome }}</p>
-    </div>
+<div>
+    <h1>Bem vindo!</h1>
+    <p>Por favor, preencha seus dados para acessar a loja!</p>
+</div>
+
+<div>
+    <form #formCliente="ngForm" (ngSubmit)="onSubmitCliente(formCliente)" novalidate>
+        <label for="nome">Nome: </label>
+        <input type="text" name="nome" #nome="ngModel" ngModel required /><br>
+        <label for="endereco">Endereço: </label>
+        <input type="text" name="endereco" #endereco="ngModel" ngModel required /><br>
+
+        <button type="submit" routerLink="/produto">Entrar</button>
+    </form>
 </div>
